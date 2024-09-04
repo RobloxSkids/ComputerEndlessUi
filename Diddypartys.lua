@@ -15,8 +15,8 @@ local Settings = {
     
     ItemColor = Color3.fromRGB(30, 30, 30),
     BorderColor = Color3.fromRGB(45, 45, 45),
-    MinSize = Vector2.new(300, 400),
-    MaxSize = Vector2.new(800, 750)
+    MinSize = Vector2.new(500, 400),
+    MaxSize = Vector2.new(500, 400)
 }
 
 
@@ -31,7 +31,7 @@ local Dragging = {Gui = nil, True = false}
 local Draggables = {}
 local ToolTip = {Enabled = false, Content = "", Item = nil}
 
-local HotkeyRemoveKey = Enum.KeyCode.LeftControl
+local HotkeyRemoveKey = Enum.KeyCode.RightControl
 local Selected = {
     Frame = nil,
     Item = nil,
@@ -55,7 +55,6 @@ local protect_gui = function(Gui, Parent)
         Gui.Parent = Parent 
     end
 end
-
 
 local CoreGui = game:GetService("CoreGui")
 local UserInput = game:GetService("UserInputService")
@@ -225,7 +224,6 @@ Menu.Screen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 protect_gui(Menu.Screen, CoreGui)
 Menu.ScreenSize = Menu.Screen.AbsoluteSize
 
-
 local Menu_Frame = Instance.new("Frame")
 local MenuScaler_Button = Instance.new("TextButton")
 local Title_Label = Instance.new("TextLabel")
@@ -284,7 +282,6 @@ MenuScaler_Button.InputEnded:Connect(function(Input, Process)
         }
     end
 end)
-
 
 Icon_Image.Name = "Icon"
 Icon_Image.BackgroundTransparency = 1
@@ -419,7 +416,6 @@ local function GetTab(Tab_Name: string): Tab
     assert(Tab_Name, "NO TAB_NAME GIVEN")
     return Tabs[Tab_Name]
 end
-
 
 local function ChangeTab(Tab_Name: string)
     assert(Tabs[Tab_Name], "Tab \"" .. tostring(Tab_Name) .. "\" does not exist!")
@@ -2435,6 +2431,10 @@ function Menu.Keybinds(): Keybinds
         self.self.Visible = Visible
     end
 
+    function Keybinds:SetPosition(Position: UDim2)
+        self.self.Position = Position
+    end
+
     return Keybinds
 end
 
@@ -2485,7 +2485,7 @@ function Menu.Indicators(): Indicators
     ListLayout.Parent = List
 
     local function UpdateFrameSize()
-        local Height = ListLayout.AbsoluteContentSize.Y + 5
+        local Height = ListLayout.AbsoluteContentSize.Y + 12
         Indicators.self:TweenSize(UDim2.fromOffset(250, math.clamp(Height + 45, 45, 5000)), nil, nil, 0.3, true)
         Indicators.self.List:TweenSize(UDim2.fromOffset(240, math.clamp(Height, 10, 5000)), nil, nil, 0.3, true)
     end
@@ -2600,6 +2600,10 @@ function Menu.Indicators(): Indicators
         self.self.Visible = Visible
     end
 
+    function Indicators:SetPosition(Position: UDim2)
+        self.self.Position = Position
+    end
+
 
     return Indicators
 end
@@ -2698,5 +2702,3 @@ function Menu:Init()
     end)
 end
 
-
-return Menu
